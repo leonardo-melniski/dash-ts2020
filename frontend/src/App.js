@@ -3,26 +3,11 @@ import TableContent from './components/table'
 import { Icon, Menu, Container, Header, Input, Button, Popup } from 'semantic-ui-react';
 import axios from 'axios';
 
-// interface entity {
-//   "index": 0,
-//   "isPredicate": false,
-//   "isModifier": false,
-//   "label": null,
-//   "start": 0,
-//   "end": 1,
-//   "text": "Although there",
-//   "pb": null,
-//   "vn": null,
-//   "description": null,
-//   "modifier": false,
-//   "predicate": false
-// }
 
 function externalTokens({ tokens }) {
   return (
-    // <a href="" alt={it.word}>
     <div>
-      {tokens.filter(it => it.index).map(it => (
+      {tokens.filter(it => it.label).map(it => (
         <div>
           {`${it.text}.${it.label}`}
         </div>
@@ -31,14 +16,21 @@ function externalTokens({ tokens }) {
   )
 }
 
-function renderPredicate(it) {
+function renderPredicate(item, result) {
+  const { tokens, props } = result;
+  // map (tokens, props)
+  // const map = tokens
+  //   .filter(it => it.label)
+  //   .map((it, i) => ({
+  //     [`${it.text}-${it.label}`]: props[i].sense
+  //   })
+  // );
+  const prop = props[tokens.filter(it => it.label).findIndex(it => it.start === item.start)];
   return (
     <>
-      <u>
-        <strong>
-          {`${it.text}`}
-        </strong>
-      </u>
+      <Popup 
+        content={prop.sense}
+        trigger={<u><strong>{item.text}</strong></u>} />
     {' '}
     </>
   )
@@ -47,7 +39,7 @@ function externalSumm(item) {
   const tokens = item.result.tokens.filter(it => it.index);
   return (
     <p>
-      {item.result.tokens.map(it => it.isPredicate ? renderPredicate(it, item.result.props) : `${it.text} `)}
+      {item.result.tokens.map(it => it.isPredicate ? renderPredicate(it, item.result) : `${it.text} `)}
     </p>
   );
 }
