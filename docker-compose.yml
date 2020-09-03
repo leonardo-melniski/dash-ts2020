@@ -1,10 +1,10 @@
-version: '3.7'
+version: '3.3'
 
 services:
   api:
+    container_name: backend
     restart: on-failure
     build: ./backend
-    container_name: backend
     volumes:
       - type: bind
         source: ./backend/result-2.db
@@ -13,8 +13,9 @@ services:
       - 8080:8080
       - 20:20
   web:
+    container_name: frontend
     restart: on-failure
     build: ./frontend
-    container_name: frontend
+    stdin_open: true
     ports: 
       - 3000:3000

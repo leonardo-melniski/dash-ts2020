@@ -1,8 +1,7 @@
 FROM node:10
 WORKDIR /opt/frontend
-COPY package*.json ./
-RUN yarn install
+ENV PATH /opt/frontend/node_modules/.bin:$PATH
+COPY package*.json /opt/frontend
+RUN yarn install --silent
 COPY . .
-RUN yarn build
-EXPOSE 3000
 CMD [ "yarn", "start" ]

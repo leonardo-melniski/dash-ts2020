@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, Menu, Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 const TableContent = ({ header, content, onClickLeft, onClickRight }) => (
   <Table celled>
@@ -10,7 +10,6 @@ const TableContent = ({ header, content, onClickLeft, onClickRight }) => (
         )}
       </Table.Row>
     </Table.Header>
-
     <Table.Body>
       {content && content.map((row, i) => (
         <Table.Row key={i}>
@@ -20,20 +19,6 @@ const TableContent = ({ header, content, onClickLeft, onClickRight }) => (
           </Table.Row>
       ))}
     </Table.Body>
-    <Table.Footer>
-      <Table.Row>
-        <Table.HeaderCell colSpan='3' >
-          <Menu floated='right' pagination>
-            <Menu.Item as='a' icon onClick={onClickLeft}>
-              <Icon name='chevron left' />
-            </Menu.Item>
-            <Menu.Item as='a' icon onClick={onClickRight}>
-              <Icon name='chevron right'/>
-            </Menu.Item>
-          </Menu>
-        </Table.HeaderCell>
-      </Table.Row>
-    </Table.Footer>
   </Table>
 )
 
