@@ -11,7 +11,6 @@ services:
         target: /opt/database/result-2.db
     ports:
       - 8080:8080
-      - 20:20
   web:
     container_name: frontend
     restart: on-failure
@@ -19,3 +18,7 @@ services:
     stdin_open: true
     ports: 
       - 3000:3000
+    depends_on: 
+      - api
+    links: 
+      - api
