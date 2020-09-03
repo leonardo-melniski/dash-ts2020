@@ -16,6 +16,8 @@ services:
     restart: on-failure
     build: ./frontend
     stdin_open: true
+    environment: 
+      - NODE_ENV=production
     ports: 
       - 3000:3000
     depends_on: 
