@@ -47,11 +47,9 @@ function externalSumm(item) {
   const tokens = item.result.tokens.filter(it => it.index);
   return (
     <p>
-      {item.result.tokens.map(it => it.isPredicate ? renderPredicate(it) : `${it.text} `)}
+      {item.result.tokens.map(it => it.isPredicate ? renderPredicate(it, item.result.props) : `${it.text} `)}
     </p>
   );
-  
-  // return <strong>{item.summ}</strong>;
 }
 
 function handleExternal(type, item) {
