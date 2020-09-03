@@ -8,12 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: fifsky/ssh-action@master
+    - uses: garygrossgarten/github-action-ssh@release
       with:
-        command: |
-          cd /tmp
-          ls -a
-          whoami
-        host: ${{ secrets.CI_SERVER_IP }}
-        user: root
-        key: ${{ secrets.CI_SERVER_SECRET}}
+        command: ls -a
+        host: ${{ secrets.CI_SERVER_SECRET }}
+        username: root
+        passphrase: ${{ secrets.CI_SERVER_PASSPHRASE }}
+        privateKey: ${{ secrets.CI_SERVER_SECRET }}
