@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Push to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CI_SERVER_IP }}
+          username: ${{ secrets.CI_SERVER_USER }}
+          password: ${{ secrets.CI_SERVER_PASSPHRASE }}
+          script: |
+            cd /opt/dash-ts2020
+            git pull
+            docker-compose up -d --build
