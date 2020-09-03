@@ -16,5 +16,6 @@ jobs:
           username: ${{ secrets.CI_SERVER_USER }}
           password: ${{ secrets.CI_SERVER_PASSPHRASE }}
           script: |
-            whoami
-            ls -la
+            cd /opt/dash-ts2020
+            git pull
+            docker-compose up -d --build
