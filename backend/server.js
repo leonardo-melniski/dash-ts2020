@@ -18,7 +18,7 @@ app.use('/api/:offset', async (req, res) => {
     const offset = Number(req.params.offset);
     const ids = [1, 10001, 20001, 30001, 40001, 50001, 60001].map(it => it + offset);
     const result = await models.findAll({
-        attributes: ['id', 'alg', 'word', 'summ'],
+        attributes: ['id', 'alg', 'word', 'summ', 'result'],
         where: {
             id: {
                 [Op.in]: ids
