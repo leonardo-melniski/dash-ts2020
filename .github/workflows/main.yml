@@ -8,10 +8,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: garygrossgarten/github-action-ssh@release
-      with:
-        command: ls -a
-        host: ${{ secrets.CI_SERVER_SECRET }}
-        username: root
-        passphrase: ${{ secrets.CI_SERVER_PASSPHRASE }}
-        privateKey: ${{ secrets.CI_SERVER_SECRET }}
+      - uses: actions/checkout@v1
+      - name: Push to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CI_SERVER_SECRET }}
+          username: ${{ secrets.CI_SERVER_USER }}
+          password: ${{ secrets.CI_SERVER_PASSPHRASE }}
+          script: |
+            whoami
+            ls -la
