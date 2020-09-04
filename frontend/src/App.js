@@ -116,6 +116,7 @@ function App() {
           header={header}
           content={rows}
           onExternal={handleExternal}
+          filterAlg={['random', 'lsa']}
         />
       </Container>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
 
-const TableContent = ({ header, content, onExternal }) => (
+const TableContent = ({ header, content, onExternal, filterAlg }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
@@ -11,7 +11,7 @@ const TableContent = ({ header, content, onExternal }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {content && content.map((row, i) => (
+      {content && content.filter(it => !filterAlg.includes(it.alg)).map((row, i) => (
         <Table.Row key={`tr_${i}`}>
           {header && header.map((it, i) => (
             <Table.Cell key={`tc_${i}`}>
