@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TableContent from './components/table'
-import { Icon, Menu, Container, Header, Input, Button, Popup } from 'semantic-ui-react';
+import { Icon, Menu, Container, Header, Input, Popup } from 'semantic-ui-react';
 import axios from 'axios';
 
 
@@ -16,6 +16,9 @@ function externalTokens({ tokens }) {
   )
 }
 
+function findProp(item, props, tokens) {
+  return props[tokens.filter(it => it.label).findIndex(it => it.start === item.start)];
+}
 function renderPredicate(item, result) {
   const { tokens, props } = result;
   // map (tokens, props)
@@ -25,7 +28,7 @@ function renderPredicate(item, result) {
   //     [`${it.text}-${it.label}`]: props[i].sense
   //   })
   // );
-  const prop = props[tokens.filter(it => it.label).findIndex(it => it.start === item.start)];
+  const prop = findProp(item, props, tokens);
   return (
     <>
       <Popup 
@@ -36,7 +39,6 @@ function renderPredicate(item, result) {
   )
 }
 function externalSumm(item) {
-  const tokens = item.result.tokens.filter(it => it.index);
   return (
     <p>
       {item.result.tokens.map(it => it.isPredicate ? renderPredicate(it, item.result) : `${it.text} `)}
@@ -44,11 +46,31 @@ function externalSumm(item) {
   );
 }
 
+function externalSynonym(item, i) {
+  const { tokens, props } = item.result;
+  return (
+    <div>
+      {tokens.filter(it => it.label).map(it => (
+        <div>
+          {i === 0 
+            ?`${findProp(it, props, tokens).sense.split('-', 1)}` 
+            : findProp(it, props, tokens).sense.split('-').filter((it, i) => i !== 0).join('-')
+          }
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function handleExternal(type, item) {
   if (type === 'token')
     return externalTokens(item.result);
   if (type === 'summ')
     return externalSumm(item);
+  if (type === 'synonym')
+    return externalSynonym(item, 0);
+  if (type === 'reference')
+    return externalSynonym(item, 1);
   return 'map missing';
 }
 
@@ -77,6 +99,8 @@ function App() {
     { label: labelResumo, external: 'summ' },
     // { label: 'verbnet', key: 'result' }
     { label: 'Tokens', external: 'token' },
+    { label: 'Sinônimos', external: 'synonym' },
+    { label: 'Referência', external: 'reference' },
   ];
 
   function handleOnClick(value) {
